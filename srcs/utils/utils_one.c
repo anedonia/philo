@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:56:44 by ldevy             #+#    #+#             */
-/*   Updated: 2022/08/19 19:37:15 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/05 16:11:09 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,15 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (nbr * signe);
+}
+
+long long	time_stamp(long long start_time)
+{
+	long long		timediff;
+	struct timeval	current;
+
+	gettimeofday(&current, NULL);
+	timediff = current.tv_sec * 1000 + current.tv_usec / 1000;
+	timediff -= start_time;
+	return (timediff);
 }

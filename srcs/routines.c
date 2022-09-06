@@ -6,55 +6,78 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:57:06 by ldevy             #+#    #+#             */
-/*   Updated: 2022/08/30 18:06:33 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/06 16:20:44 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	eat(t_philo *philo)
+void	eat(t_philo *phi)
 {
-	philo->etat = EATING;
-	log_display(*philo);
-	usleep(philo->info.time_eat.tv_sec * 1000);
-	gettimeofday(&philo->last_eat, NULL);
+	struct timeval	eat_time;
+
+	if (phi->numero != 1)
+	{
+		pthread_mutex_lock(&(phi->info->forks[phi->l_fork]));
+		log_display(*phi);
+	}
+	pthread_mutex_lock(&(phi->info->forks[phi->r_fork]));
+	log_display(*phi);
+	phi->etat = EATING;
+	log_display(*phi);
+	usleep(phi->info->time_eat);
+	gettimeofday(&eat_time, NULL);
+	phi->last_eat = eat_time.tv_sec * 1000 + eat_time.tv_usec / 1000;
+	if (phi->numero != 1)
+		pthread_mutex_unlock(&(phi->info->forks[phi->l_fork]));
+	pthread_mutex_unlock(&(phi->info->forks[phi->r_fork]));
 }
 
-void	sleep(t_philo *philo)
+void	ft_sleep(t_philo *philo)
 {
 	philo->etat = SLEEPING;
 	log_display(*philo);
-	usleep(philo->info.time_sleep.tv_sec * 1000);
+	usleep(philo->info->time_sleep);
 }
 
 void	think(t_philo *philo)
 {
-	log_display(*philo);
 	philo->etat = THINKING;
+	log_display(*philo);
+	philo->etat = WAIT;
 }
 
 void	log_display(t_philo philo)
 {
-	struct timeval	current;
+	long long		timediff;
 
-	gettimeofday(&current, NULL);
-	current.tv_usec = philo.info.start.tv_usec - current.tv_usec;
+	pthread_mutex_lock(&(philo.info->write));
+	timediff = time_stamp(philo.info->start);
 	if (philo.etat == EATING)
-		printf("%ld %d is eating\n", current.tv_usec, philo.numero);
+		printf("%lld %d is eating\n", timediff, philo.numero);
+	else if (philo.etat == WAIT)
+		printf("%lld %d has taken a fork\n", timediff, philo.numero);
 	else if (philo.etat == SLEEPING)
-		printf("%ld %d is sleeping\n", current.tv_usec, philo.numero);
+		printf("%lld %d is sleeping\n", timediff, philo.numero);
 	else if (philo.etat == THINKING)
-		printf("%ld %d is thinking\n", current.tv_usec, philo.numero);
+		printf("%lld %d is thinking\n", timediff, philo.numero);
 	else if (philo.etat == DEAD)
-		printf("%ld %d died\n", current.tv_usec, philo.numero);
+		printf("%lld %d died\n", timediff, philo.numero);
+	pthread_mutex_unlock(&(philo.info->write));
 }
 
-void	mdr(t_philo philo)
+void	*mdr(void *philo)
 {
-	eat(&philo);
-	sleep(&philo);
-	think(&philo);
-}
+	t_philo			*phi;
 
-	//dans la routine j'ai besoin du num du philo 
-	//il doit avoir la fouchette de son num et du num précedent
+	phi = (t_philo *)philo;
+	//while (1)
+	//{
+		eat(phi);
+		ft_sleep(phi);
+		think(phi);
+	//}
+	return (NULL);
+}
+//dans la routine j'ai besoin du num du philo 
+//il doit avoir la fouchette de son num et du num précedent
