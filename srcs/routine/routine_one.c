@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routines.c                                         :+:      :+:    :+:   */
+/*   routine_one.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:57:06 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/06 16:20:44 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/09 16:38:24 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philo.h"
+#include "../../philo.h"
 
 void	eat(t_philo *phi)
 {
@@ -25,9 +25,10 @@ void	eat(t_philo *phi)
 	log_display(*phi);
 	phi->etat = EATING;
 	log_display(*phi);
-	usleep(phi->info->time_eat);
+	usleep(phi->info->time_eat * 1000);
 	gettimeofday(&eat_time, NULL);
 	phi->last_eat = eat_time.tv_sec * 1000 + eat_time.tv_usec / 1000;
+	phi->nb_meals++;
 	if (phi->numero != 1)
 		pthread_mutex_unlock(&(phi->info->forks[phi->l_fork]));
 	pthread_mutex_unlock(&(phi->info->forks[phi->r_fork]));
@@ -37,7 +38,7 @@ void	ft_sleep(t_philo *philo)
 {
 	philo->etat = SLEEPING;
 	log_display(*philo);
-	usleep(philo->info->time_sleep);
+	usleep(philo->info->time_sleep * 1000);
 }
 
 void	think(t_philo *philo)
@@ -71,13 +72,14 @@ void	*mdr(void *philo)
 	t_philo			*phi;
 
 	phi = (t_philo *)philo;
-	//while (1)
-	//{
+	phi->last_eat = phi->info->start;
+	while (!phi->info->phi_died)
+	{
+		if (phi->info->cycles != -1 && phi->info->end)
+			break ;
 		eat(phi);
 		ft_sleep(phi);
 		think(phi);
-	//}
+	}
 	return (NULL);
 }
-//dans la routine j'ai besoin du num du philo 
-//il doit avoir la fouchette de son num et du num précedent

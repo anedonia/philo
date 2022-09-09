@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:09:38 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/06 16:18:17 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/09 16:35:54 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 int	init_info(int argc, char **args, t_info *info)
 {
 	info->nb_philo = ft_atoi(args[1]);
-	info->time_die = ft_atoi(args[2]) * 1000;
-	info->time_eat = ft_atoi(args[3]) * 1000;
-	info->time_sleep = ft_atoi(args[4]) * 1000;
+	info->time_die = ft_atoi(args[2]);
+	info->time_eat = ft_atoi(args[3]);
+	info->time_sleep = ft_atoi(args[4]);
+	info->phi_died = 0;
 	if (argc == 6)
 		info->cycles = ft_atoi(args[5]);
+	else
+		info->cycles = -1;
+	info->end = 0;
 	info->philo = malloc(sizeof(t_philo) * info->nb_philo);
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nb_philo);
 	if (!info->philo || !info->forks)
@@ -39,12 +43,13 @@ int	init_philo(t_info *info)
 		info->philo[i].etat = WAIT;
 		info->philo[i].numero = i + 1;
 		info->philo[i].info = info;
-		info->philo[i].r_fork = i + 1;
+		info->philo[i].last_eat = -1;
+		if (info->nb_philo > 1)
+			info->philo[i].r_fork = i + 1;
 		if (i == 0)
 			info->philo[i].l_fork = i + 1;
 		else
 			info->philo[i].l_fork = i;
-		show_phi(info->philo[i]);
 		i++;
 	}
 	return (0);
@@ -61,6 +66,10 @@ int	init_mutex(t_info *info)
 			return (1);
 		i++;
 	}
+	if (pthread_mutex_init(&(info->write), NULL))
+		return (1);
+	if (pthread_mutex_init(&(info->state), NULL))
+		return (1);
 	return (0);
 }
 

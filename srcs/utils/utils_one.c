@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 19:56:44 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/05 16:11:09 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/08 14:39:02 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,14 @@ long long	time_stamp(long long start_time)
 	timediff = current.tv_sec * 1000 + current.tv_usec / 1000;
 	timediff -= start_time;
 	return (timediff);
+}
+
+long long	last_since(long long before)
+{
+	long long		now;
+	struct timeval	current;
+
+	gettimeofday(&current, NULL);
+	now = current.tv_sec * 1000 + current.tv_usec / 1000;
+	return (now - before);
 }
