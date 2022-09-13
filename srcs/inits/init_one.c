@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:09:38 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/13 15:57:44 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:21:41 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,18 @@ int	init_info(int argc, char **args, t_info *info)
 	else
 		info->cycles = -1;
 	info->end = 0;
+	if (info_check(*info))
+		return (1);
 	info->philo = malloc(sizeof(t_philo) * info->nb_philo);
 	info->forks = malloc(sizeof(pthread_mutex_t) * info->nb_philo);
 	if (!info->philo || !info->forks)
-		return (1);
+	{
+		printf("malloc failed\n");
+		return (2);
+	}
 	init_philo(info);
-	init_mutex(info);
+	if (init_mutex(info))
+		return (3);
 	return (0);
 }
 
@@ -67,24 +73,23 @@ int	init_mutex(t_info *info)
 	while (i < info->nb_philo)
 	{
 		if (pthread_mutex_init(&(info->forks[i]), NULL))
+		{
+			printf("mutex initialization failed\n");
 			return (1);
+		}
 		i++;
 	}
 	if (pthread_mutex_init(&(info->write), NULL))
+	{
+		printf("mutex initialization failed\n");
 		return (1);
+	}
 	if (pthread_mutex_init(&(info->state), NULL))
+	{
+		printf("mutex initialization failed\n");
 		return (1);
+	}
 	return (0);
-}
-
-void	show_phi(t_philo phi)
-{
-	//pthread_mutex_lock(&(phi.info->state));
-	printf("r fork %d\n", phi.r_fork);
-	printf("l fork %d\n", phi.l_fork);
-	printf("phi nb %d\n", phi.numero);
-	printf("phi last_eat %lld\n\n", phi.last_eat);
-	//pthread_mutex_unlock(&(phi.info->state));
 }
 
 void	init_time(t_info *info)
@@ -97,4 +102,20 @@ void	init_time(t_info *info)
 		info->philo[i].last_eat = info->start;
 		i++;
 	}
+}
+
+int	info_check(t_info i)
+{
+	if (i.time_die <= 0 || i.time_eat <= 0 || i.time_sleep <= 0
+		|| i.nb_philo <= 0)
+	{
+		printf("invalid argument\n");
+		return (1);
+	}
+	if (i.cycles != -1 && i.cycles <= 0)
+	{
+		printf("invalid argument\n");
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:57:06 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/13 15:53:36 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:55:36 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ void	eat(t_philo *phi)
 	if (phi->info->nb_philo > 1)
 	{
 		pthread_mutex_lock(&(phi->info->forks[phi->l_fork]));
-		//printf("phi nb : %d l lock\n", phi->numero);
 		log_display(*phi);
 	}
 	pthread_mutex_lock(&(phi->info->forks[phi->r_fork]));
-	//printf("phi nb : %d r lock\n", phi->numero);
 	log_display(*phi);
 	phi->etat = EATING;
 	log_display(*phi);
@@ -32,12 +30,8 @@ void	eat(t_philo *phi)
 	usleep(phi->info->time_eat * 1000);
 	phi->nb_meals++;
 	if (phi->info->nb_philo > 1)
-	{
 		pthread_mutex_unlock(&(phi->info->forks[phi->l_fork]));
-		//printf("phi nb : %d l unlock\n", phi->numero);
-	}
 	pthread_mutex_unlock(&(phi->info->forks[phi->r_fork]));
-	//printf("phi nb : %d r unlock\n", phi->numero);
 }
 
 void	ft_sleep(t_philo *philo)

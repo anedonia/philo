@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:38:01 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/13 16:34:35 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/13 19:03:18 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	death_check(t_info *info)
 				p[i].etat = DEAD;
 				log_display(p[i]);
 				info->phi_died = 1;
-				//show_phi(p[i]);
 			}
 			pthread_mutex_unlock(&(info->state));
 			i++;
@@ -62,11 +61,3 @@ int	all_ate(t_info *in)
 		in->end = 1;
 	return (0);
 }
-
-//faire le checker de cycles FAIT
-//trouver comment correctement stopper les threads 
-//faire la exit function 
-//protéger le death check  FAIT
-//initialiser la write mutex
-//destroy les mutex cf exit fct
-//pb de last since (encore)

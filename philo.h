@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:54:22 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/12 14:56:24 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/13 18:19:50 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ typedef struct s_info
 	pthread_mutex_t	state;
 }	t_info;
 
+//threads
+int			start_threads(t_info *u);
+void		end_threads(t_info *info);
+
 //utils_one
 int			ft_atoi(char *str);
 long long	time_stamp(long long start_time);
@@ -78,6 +82,7 @@ int			init_info(int argc, char **args, t_info *info);
 int			init_philo(t_info *info);
 int			init_mutex(t_info *info);
 void		init_time(t_info *info);
+int			info_check(t_info i);
 
 //mem_management
 void		end_all(t_info *info);
