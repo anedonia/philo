@@ -6,14 +6,14 @@
 #    By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/25 15:52:38 by ldevy             #+#    #+#              #
-#    Updated: 2022/09/08 14:07:44 by ldevy            ###   ########.fr        #
+#    Updated: 2022/09/13 16:05:17 by ldevy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = $(addprefix srcs/, main.c \
 					routine/routine_one.c routine/routine_two.c \
 					utils/utils_one.c \
-					inits/init_one.c)
+					inits/init_one.c inits/mem_management.c)
 
 OBJDIR = obj
 

@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:31:58 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/09 16:05:35 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/13 16:03:18 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	test_threads(t_info *info)
 	i = 0;
 	gettimeofday(&start, NULL);
 	info->start = start.tv_sec * 1000 + start.tv_usec / 1000;
+	init_time(info);
 	while (i < info->nb_philo)
 	{
 		state = pthread_create(&(info->philo[i].tid), NULL, mdr, &(info->philo[i]));
@@ -37,6 +38,7 @@ void	test_threads(t_info *info)
 			return ;
 		i++;
 	}
+	end_all(info);
 }
 
 int	main(int argc, char **argv)

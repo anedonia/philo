@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 13:38:01 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/09 16:37:21 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/13 16:34:35 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,22 @@ int	death_check(t_info *info)
 
 	p = info->philo;
 	i = 0;
-	usleep(1000);
-	while (!info->phi_died && !info->end)
+	while (!info->phi_died)
 	{
 		while (i < info->nb_philo)
 		{
-			if (last_since(p[i].last_eat) > info->time_die && p[i].etat != DEAD)
+			pthread_mutex_lock(&(info->state));
+			if (last_since(p[i].last_eat) > info->time_die)
 			{
 				p[i].etat = DEAD;
-				info->phi_died = 1;
 				log_display(p[i]);
+				info->phi_died = 1;
+				//show_phi(p[i]);
 			}
+			pthread_mutex_unlock(&(info->state));
 			i++;
+			usleep(150);
 		}
-		usleep(1000);
 		i = 0;
 		all_ate(info);
 	}
@@ -48,9 +50,11 @@ int	all_ate(t_info *in)
 	ph = in->philo;
 	i = 0;
 	j = 0;
+	if (in->cycles == -1)
+		return (0);
 	while (i < in->nb_philo)
 	{
-		if (ph[i].nb_meals == in->cycles)
+		if (ph[i].nb_meals >= in->cycles)
 			j++;
 		i++;
 	}
@@ -59,11 +63,10 @@ int	all_ate(t_info *in)
 	return (0);
 }
 
-//faire le checker de cycles 
+//faire le checker de cycles FAIT
 //trouver comment correctement stopper les threads 
 //faire la exit function 
-//protéger le death check 
+//protéger le death check  FAIT
 //initialiser la write mutex
 //destroy les mutex cf exit fct
-
-//pour l'instant je vais juste check si un phi n'est pas mort a cause de delais 
+//pb de last since (encore)
