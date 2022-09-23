@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:56:55 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/13 16:52:41 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/18 17:17:37 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	end_all(t_info *info)
 	}
 	pthread_mutex_destroy(&(info->write));
 	pthread_mutex_destroy(&(info->state));
+	pthread_mutex_destroy(&(info->leat));
+	pthread_mutex_destroy(&(info->bonus));
 	free(info->forks);
 	free(info->philo);
 }

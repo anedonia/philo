@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 18:31:58 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/13 18:22:24 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/20 21:55:52 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	main(int argc, char **argv)
 		printf("number of args invalid\n");
 		return (1);
 	}
+	if (ft_atoi(argv[1]) == 1 && solo_case(argc, argv))
+		return (4);
 	if (init_info(argc, argv, &info))
 		return (2);
 	if (start_threads(&info))

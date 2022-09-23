@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:54:22 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/13 18:19:50 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/23 19:51:29 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,9 @@ typedef struct s_info
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
 	pthread_mutex_t	state;
+	pthread_mutex_t	leat;
+	pthread_mutex_t	bonus;
+	pthread_mutex_t	ntm;
 }	t_info;
 
 //threads
@@ -62,15 +65,17 @@ int			start_threads(t_info *u);
 void		end_threads(t_info *info);
 
 //utils_one
+int			ft_isdigit(char c);
 int			ft_atoi(char *str);
 long long	time_stamp(long long start_time);
 long long	last_since(long long before);
 
 //routine_one
 void		ft_sleep(t_philo *philo);
-void		eat(t_philo *philo);
+void		eat_pone(t_philo *philo);
+void		eat_ptwo(t_philo *philo);
 void		think(t_philo *philo);
-void		log_display(t_philo philo);
+void		log_display(t_philo *philo);
 void		*mdr(void *philo);
 
 //routine_two
@@ -89,5 +94,10 @@ void		end_all(t_info *info);
 
 //debug
 void		show_phi(t_philo phi);
+
+//correction
+int			args_full_check(int argc, char **argv);
+void		solo_phi(char *str);
+int			solo_case(int argc, char **argv);
 
 #endif
