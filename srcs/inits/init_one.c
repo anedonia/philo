@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 18:09:38 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/23 17:16:55 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/26 19:35:04 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,13 @@ int	init_mutex(t_info *info)
 		}
 		i++;
 	}
+	if (init_mutex_extention(info))
+		return (1);
+	return (0);
+}
+
+int	init_mutex_extention(t_info *info)
+{
 	if (pthread_mutex_init(&(info->write), NULL))
 	{
 		printf("mutex initialization failed\n");
@@ -97,11 +104,6 @@ int	init_mutex(t_info *info)
 		printf("mutex initialization failed\n");
 		return (1);
 	}
-	if (pthread_mutex_init(&(info->ntm), NULL))
-	{
-		printf("mutex initialization failed\n");
-		return (1);
-	}
 	return (0);
 }
 
@@ -115,20 +117,4 @@ void	init_time(t_info *info)
 		info->philo[i].last_eat = info->start;
 		i++;
 	}
-}
-
-int	info_check(t_info i)
-{
-	if (i.time_die <= 0 || i.time_eat <= 0 || i.time_sleep <= 0
-		|| i.nb_philo <= 0)
-	{
-		printf("invalid argument\n");
-		return (1);
-	}
-	if (i.cycles != -1 && i.cycles <= 0)
-	{
-		printf("invalid argument\n");
-		return (1);
-	}
-	return (0);
 }

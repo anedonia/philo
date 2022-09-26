@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/25 15:54:22 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/23 19:51:29 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/26 19:36:56 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void		eat_ptwo(t_philo *philo);
 void		think(t_philo *philo);
 void		log_display(t_philo *philo);
 void		*mdr(void *philo);
+void		death_check_extention(t_info *info, int i);
 
 //routine_two
 int			death_check(t_info *info);
@@ -88,6 +89,7 @@ int			init_philo(t_info *info);
 int			init_mutex(t_info *info);
 void		init_time(t_info *info);
 int			info_check(t_info i);
+int			init_mutex_extention(t_info *info);
 
 //mem_management
 void		end_all(t_info *info);

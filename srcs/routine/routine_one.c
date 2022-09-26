@@ -6,7 +6,7 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/16 18:57:06 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/23 21:30:58 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/26 19:12:24 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	eat_pone(t_philo *phi)
 {
-
 	if (phi->numero % 2 && phi->info->nb_philo > 1)
 	{
 		pthread_mutex_lock(&(phi->info->forks[phi->r_fork]));
@@ -68,7 +67,6 @@ void	think(t_philo *philo)
 	philo->etat = WAIT;
 	pthread_mutex_unlock(&(philo->info->state));
 }
-
 
 void	*mdr(void *philo)
 {

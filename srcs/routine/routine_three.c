@@ -6,12 +6,11 @@
 /*   By: ldevy <ldevy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 17:16:10 by ldevy             #+#    #+#             */
-/*   Updated: 2022/09/23 21:00:22 by ldevy            ###   ########.fr       */
+/*   Updated: 2022/09/26 19:27:32 by ldevy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../philo.h"
-
 
 void	log_display(t_philo *philo)
 {
@@ -40,4 +39,18 @@ void	log_display(t_philo *philo)
 		printf("%lld %d died\n", timediff, philo->numero);
 	pthread_mutex_unlock(&(philo->info->write));
 	pthread_mutex_unlock(&(philo->info->state));
+}
+
+void	solo_phi(char *str)
+{
+	printf("0 1 has taken a fork\n");
+	printf("%s 1 died\n", str);
+}
+
+int	solo_case(int argc, char **argv)
+{
+	if (args_full_check(argc, argv))
+		return (1);
+	solo_phi(argv[2]);
+	return (1);
 }
